@@ -3,7 +3,6 @@ import pandas as pd
 from sklearn.cluster import KMeans
 from sklearn import preprocessing
 from sklearn import metrics
-import pickle
 import json
 
 # Importer les donnees fakeUsers depuis l'api laravel
@@ -46,4 +45,21 @@ print('centres : %f' %centres)
 kmean_score= metrics.silhouette_score(data,labels)
 '''
 print('score : %f' %kmean_score)
+'''
+
+# Créer un dataframe pour stocker les labels des clusters et les noms des utilisateurs
+df = pd.DataFrame({'labels':labels,'users':data1['nom']}).sort_values(by=['labels'],axis = 0)
+'''
+print(df)
+'''
+# Convertir le dataframe en json 
+donneesjson = df.to_json(orient="index")
+parsed = json.loads(donneesjson)
+json.dumps(parsed,indent=4)
+
+'''
+print(donneesjson)
+users = json.loads(donneesjson)
+for key in users:
+    print(key, ":", users[key])
 '''
