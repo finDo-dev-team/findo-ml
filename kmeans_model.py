@@ -26,3 +26,19 @@ data["nom"]=Encoder.fit_transform(data["nom"])
 '''
 data["ville"]=Encoder.fit_transform(data["ville"])
 '''
+
+#création d'un clusetr Kmean avec nombre de clusters 4
+kmeans = KMeans(n_clusters = 5,max_iter = 100)
+#Apprentissage (segmetation) (fonction fit)
+kmeans.fit(data)
+#Prédiction et enregistrement des labels 
+labels = kmeans.predict(data)
+#Affichage des labels
+'''
+print('score : %f' %labels)
+'''
+#enregistrement des centres des clusters
+centres = kmeans.cluster_centers_
+'''
+print('centres : %f' %centres)
+'''
