@@ -42,3 +42,8 @@ centres = kmeans.cluster_centers_
 '''
 print('centres : %f' %centres)
 '''
+#Calculer le score du modèle
+kmean_score= metrics.silhouette_score(data,labels)
+'''
+print('score : %f' %kmean_score)
+'''
