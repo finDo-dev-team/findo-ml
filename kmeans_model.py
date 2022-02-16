@@ -8,47 +8,49 @@ import json
 # Importer les donnees fakeUsers depuis l'api laravel
 '''
 url =
+data = pd.DataFrame(url)
 '''
-data1 = pd.read_table("FakeUsers.csv", sep=",")
-data = data1.drop(['age', 'ville'], axis=1)
+data = pd.read_table("fakeUsers(1).csv", sep=",")
+dataWithEncoder = data.drop(['id','prenom','nom'], axis=1)
 
 '''
-print(data)
-print(data.dtypes)
+#print(dataWithEncoder)
 '''
 
 #Labellisation des champ textes avec Encoder1
 Encoder =preprocessing.LabelEncoder()
-data["prenom"]=Encoder.fit_transform(data["prenom"])
-data["nom"]=Encoder.fit_transform(data["nom"])
-
+dataWithEncoder["ville"]=Encoder.fit_transform(dataWithEncoder["ville"])
 '''
-data["ville"]=Encoder.fit_transform(data["ville"])
+#dataWithEncoder["prenom"]=Encoder.fit_transform(dataWithEncoder["prenom"])
+#dataWithEncoder["nom"]=Encoder.fit_transform(dataWithEncoder["nom"])
 '''
 
-#création d'un clusetr Kmean avec nombre de clusters 4
-kmeans = KMeans(n_clusters = 5,max_iter = 100)
-#Apprentissage (segmetation) (fonction fit)
-kmeans.fit(data)
+
+#création d'un clusetr Kmeans avec nombre de clusters 4
+kmeans = KMeans(n_clusters = 4 )
+#Apprentissage fonction fit)
+kmeans.fit(dataWithEncoder)
 #Prédiction et enregistrement des labels 
-labels = kmeans.predict(data)
+labels = kmeans.predict(dataWithEncoder)
 #Affichage des labels
 '''
-print('score : %f' %labels)
+print('labels:')
+print(labels)
 '''
 #enregistrement des centres des clusters
 centres = kmeans.cluster_centers_
 '''
-print('centres : %f' %centres)
+print('centres:')
+print(centres)
 '''
 #Calculer le score du modèle
-kmean_score= metrics.silhouette_score(data,labels)
-'''
+kmean_score= metrics.silhouette_score(dataWithEncoder,labels)
+
 print('score : %f' %kmean_score)
-'''
+
 
 # Créer un dataframe pour stocker les labels des clusters et les noms des utilisateurs
-df = pd.DataFrame({'labels':labels,'users':data1['nom']}).sort_values(by=['labels'],axis = 0)
+df = pd.DataFrame({'labels':labels,'users':data['nom']}).sort_values(by=['labels'],axis = 0)
 '''
 print(df)
 '''
