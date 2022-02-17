@@ -9,13 +9,13 @@ app = Flask(__name__)
 
 api = Api(app)
 
-class returnjson(Resource):
+class cluster(Resource):
 	def get(self):
 		importlib.reload(kmeans_model)
-		from kmeans_model import donneesjson
-		return donneesjson
+		from kmeans_model import datajson
+		return datajson
 
-api.add_resource(returnjson,'/clustering')
+api.add_resource(cluster,'/clustering')
 
 
 if __name__=='__main__':
